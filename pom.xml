@@ -64,7 +64,7 @@
                 <artifactId>exec-maven-plugin</artifactId>
                 <version>3.1.0</version>
                 <configuration>
-                    <mainClass>edu.asu.cse464.graphparser.GraphParser</mainClass>
+                    <mainClass>edu.asu.cse464.graphparser.Main</mainClass>
                 </configuration>
             </plugin>
 

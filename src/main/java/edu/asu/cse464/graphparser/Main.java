@@ -1,0 +1,41 @@
+package edu.asu.cse464.graphparser;
+
+import java.io.IOException;
+
+public class Main {
+    public static void main(String[] args) {
+        GraphParser gp = new GraphParser();
+
+        try {
+            System.out.println("=== CSE 464 Graph Parser Demo ===\n");
+
+            // Feature 1: Parse Graph
+            System.out.println("Feature 1: Parsing graph from input.dot");
+            gp.parseGraph("src/main/resources/input.dot");
+            System.out.println(gp.toString());
+
+            // Feature 2: Add Nodes
+            System.out.println("\nFeature 2: Adding nodes x and y");
+            gp.addNode("x");
+            gp.addNode("y");
+            System.out.println("Node count after adding: " + gp.getNodeCount());
+
+            // Feature 3: Add Edge
+            System.out.println("\nFeature 3: Adding edge x -> y");
+            gp.addEdge("x", "y");
+            System.out.println("Edge count after adding: " + gp.getEdgeCount());
+
+            // Feature 4: Output
+            System.out.println("\nFeature 4: Outputting graph");
+            gp.outputDOTGraph("output.dot");
+            gp.outputGraphics("output.png", "png");
+            System.out.println("Created: output.dot and output.png");
+
+            System.out.println("\n=== Demo Complete ===");
+
+        } catch (IOException e) {
+            System.err.println("Error: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+}
