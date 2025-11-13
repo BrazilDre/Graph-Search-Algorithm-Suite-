@@ -68,6 +68,18 @@ public class GraphParser {
         return nodes.add(label);
     }
 
+    public boolean removeNode(String label) {
+        Objects.requireNonNull(label, "label");
+
+        // check that the node exists
+        if (!nodes.contains(label)) {
+            throw new IllegalArgumentException("Node does not exist: " + label);
+        }
+        edges.removeIf(e -> label.equals(e.src) || label.equals(e.dst));
+        nodes.remove(label);
+        return true;
+    }
+
     /** Feature 2 add many nodes, return true if any new node was added */
     public boolean addNodes(String[] labels) {
         Objects.requireNonNull(labels, "labels");
@@ -80,6 +92,19 @@ public class GraphParser {
         return any;
     }
 
+    public boolean removeNodes(String[] labels) {
+        Objects.requireNonNull(labels, "labels");
+        boolean anyRemoved = false;
+        for (String label : labels) {
+            if (label == null || label.isBlank()) {
+                continue;
+            }
+            boolean removed = removeNode(label);
+            anyRemoved = anyRemoved || removed;
+        }
+        return anyRemoved;
+    }
+
     /** Feature 3 add an edge, return false on duplicate */
     public boolean addEdge(String src, String dst) {
         Objects.requireNonNull(src, "src");
@@ -87,6 +112,27 @@ public class GraphParser {
         nodes.add(src);
         nodes.add(dst);
         return edges.add(new Edge(src, dst));
+    }
+
+    public boolean removeEdge(String src, String dst) {
+        Objects.requireNonNull(src, "src");
+        Objects.requireNonNull(dst, "dst");
+
+        if (!nodes.contains(src)) {
+            throw new IllegalArgumentException("Source node does not exist: " + src);
+        }
+        if (!nodes.contains(dst)) {
+            throw new IllegalArgumentException("Destination node does not exist: " + dst);
+        }
+        Edge edge = new Edge(src, dst);
+
+        // if edges.remove returns false, there was no such edge
+        if (!edges.remove(edge)) {
+            throw new IllegalArgumentException(
+                    "Edge does not exist: " + src + " -> " + dst
+            );
+        }
+        return true;
     }
 
     /** Feature 4 write a readable summary */

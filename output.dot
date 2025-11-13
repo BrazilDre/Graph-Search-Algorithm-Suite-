@@ -1,7 +1,13 @@
-digraph {
-"a" -> "b"
-"b" -> "c"
-"c" -> "d"
-"d" -> "a"
-"x" -> "y"
+digraph G {
+  a;
+  b;
+  c;
+  d;
+  x;
+  y;
+  a -> b;
+  b -> c;
+  c -> d;
+  d -> a;
+  x -> y;
 }
