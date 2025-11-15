@@ -8,10 +8,7 @@ import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.LinkedHashSet;
-import java.util.Locale;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -197,8 +194,22 @@ public class GraphParser {
         return nodes.size();
     }
 
+    public boolean doesNodeExists(String label) {
+        return nodes.contains(label);
+    }
+
     public int getEdgeCount() {
         return edges.size();
+    }
+
+    public Set<String> getNeighbors(String label) {
+        Set<String> neighbors = new HashSet<>();
+        for (Edge edge : edges) {
+            if (edge.src.equals(label)) {
+                neighbors.add(edge.dst);
+            }
+        }
+        return neighbors;
     }
 
     public String toDotString() {
@@ -251,5 +262,6 @@ public class GraphParser {
         public int hashCode() {
             return 31 * src.hashCode() + dst.hashCode();
         }
+
     }
 }

@@ -1,4 +1,5 @@
 package edu.asu.cse464.graphparser;
+import java.util.*;
 
 import java.io.IOException;
 
@@ -31,6 +32,27 @@ public class Main {
             gp.outputGraphics("output.png", "png");
             System.out.println("Created: output.dot and output.png");
 
+            //Feature 5: BFS Algorithm
+            System.out.println("\nFeature 5: Using BFS algorithm");
+            BreadthFirstSearch bfs = new BreadthFirstSearch(gp);
+            List<String> BFSresult = bfs.search("A", "E");
+            if(BFSresult == null) {
+                System.out.println("No path found");
+            } else {
+                System.out.println("BFS path:" + BFSresult);
+            }
+
+            //Feature 6: DFS algorithm
+            System.out.println("\nFeature 6: Using DFS algorithm");
+            DepthFirstSearch dfs = new DepthFirstSearch(gp);
+            List<String> DFSresult = dfs.search("A", "E");
+            if(DFSresult == null) {
+                System.out.println("No path found");
+            } else {
+                System.out.println("DFS path:" + DFSresult);
+            }
+
+            //Complete
             System.out.println("\n=== Demo Complete ===");
 
         } catch (IOException e) {
