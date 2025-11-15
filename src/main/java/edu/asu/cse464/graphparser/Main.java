@@ -32,16 +32,6 @@ public class Main {
             gp.outputGraphics("output.png", "png");
             System.out.println("Created: output.dot and output.png");
 
-            //Feature 5: BFS Algorithm
-            System.out.println("\nFeature 5: Using BFS algorithm");
-            BreadthFirstSearch bfs = new BreadthFirstSearch(gp);
-            List<String> BFSresult = bfs.search("A", "E");
-            if(BFSresult == null) {
-                System.out.println("No path found");
-            } else {
-                System.out.println("BFS path:" + BFSresult);
-            }
-
             //Feature 6: DFS algorithm
             System.out.println("\nFeature 6: Using DFS algorithm");
             DepthFirstSearch dfs = new DepthFirstSearch(gp);
