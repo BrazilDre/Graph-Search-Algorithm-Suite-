@@ -52,6 +52,10 @@ public class Main {
                 System.out.println("DFS path:" + DFSresult);
             }
 
+            System.out.println("\nAPI tests");
+            System.out.println("BFS with API : " + gp.graphSearch("A", "E", Algorithm.BFS));
+            System.out.println("DFS with API : " + gp.graphSearch("A", "E", Algorithm.DFS));
+
             //Complete
             System.out.println("\n=== Demo Complete ===");
 

@@ -5,3 +5,4 @@ import java.util.List;
 public interface GraphSearch {
     List<String> search(String src, String dst);
 }
+
