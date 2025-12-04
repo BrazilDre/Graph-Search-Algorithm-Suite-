@@ -3,14 +3,15 @@ package edu.asu.cse464.graphparser;
 import java.util.*;
 
 /**
- * Random Walk Search implementation.
- * At each step, randomly picks ONE unvisited neighbor and moves to it.
- * This is a true random walk (single active path), not a frontier-based search.
+ * Random Walk Search implementation for demo.
+ * Outputs in format: Attempt X: A->B->C (Dead end) or (target node!)
  */
 public class RandomWalkSearch extends AbstractGraphSearch {
 
     private final Random random;
-    private static final int MAX_STEPS = 1000; // safety bound against infinite walks
+    private static final int MAX_STEPS = 1000;
+    private int attemptNumber = 0;
+    private boolean silentMode = false;
 
     public RandomWalkSearch(GraphParser graphParser) {
         super(graphParser);
@@ -18,63 +19,56 @@ public class RandomWalkSearch extends AbstractGraphSearch {
     }
 
     /**
-     * Constructor with seed for deterministic tests / demos.
+     * Reset attempt counter (useful for multiple runs in demo).
      */
-    public RandomWalkSearch(GraphParser graphParser, long seed) {
-        super(graphParser);
-        this.random = new Random(seed);
+    public void resetAttemptCounter() {
+        attemptNumber = 0;
     }
 
     /**
-     * Random-walk-based search. Overrides the template method because
-     * random walk does not use a frontier of multiple nodes like BFS / DFS.
-     *
-     * It still reuses:
-     *  - isValidInput(...) from AbstractGraphSearch
-     *  - reconstructPath(...) from AbstractGraphSearch
-     *  - graphParser.getNeighbors(...)
+     * Set attempt number manually (for demo control).
      */
+    public void setAttemptNumber(int num) {
+        attemptNumber = num;
+    }
+
     @Override
     public List<String> search(String src, String dst) {
-        System.out.println();
-        System.out.println("=== Random Walk Search: " + src + " -> " + dst + " ===");
+        attemptNumber++;
 
-        // 1. Validate input
+        // Validate input
         if (!isValidInput(src, dst)) {
-            System.out.println("Invalid input for random walk search.");
+            System.out.println("Attempt " + attemptNumber + ": Invalid input");
             return null;
         }
 
-        // 2. Trivial case: src == dst
+        // Trivial case
         if (src.equals(dst)) {
             List<String> path = new ArrayList<>();
             path.add(src);
-            System.out.println("Trivial path: " + path);
+            printAttempt(path, true);
             return path;
         }
 
-        // 3. Random walk from src
+        // Random walk
         Set<String> visited = new HashSet<>();
         Map<String, String> predecessorMap = new HashMap<>();
+        List<String> pathSoFar = new ArrayList<>();
 
         String current = src;
         visited.add(current);
+        pathSoFar.add(current);
 
         for (int step = 1; step <= MAX_STEPS; step++) {
-            System.out.println("  Step " + step + ": at node " + current);
-
             // Reached destination
             if (current.equals(dst)) {
-                System.out.println("  Reached destination.");
-                List<String> path = reconstructPath(dst, predecessorMap);
-                System.out.println("Path found: " + path);
-                return path;
+                List<String> finalPath = reconstructPath(dst, predecessorMap);
+                printAttempt(finalPath, true);  // Print successful attempt
+                return finalPath;
             }
 
-            // Get neighbors from GraphParser
+            // Get unvisited neighbors
             Set<String> neighbors = graphParser.getNeighbors(current);
-
-            // Filter to unvisited neighbors
             List<String> unvisitedNeighbors = new ArrayList<>();
             for (String neighbor : neighbors) {
                 if (!visited.contains(neighbor)) {
@@ -82,50 +76,70 @@ public class RandomWalkSearch extends AbstractGraphSearch {
                 }
             }
 
-            // Dead end: no unvisited neighbors to walk to
+            // Dead end
             if (unvisitedNeighbors.isEmpty()) {
-                System.out.println("  Dead end: no unvisited neighbors.");
+                printAttempt(pathSoFar, false);  // Print failed attempt
                 return null;
             }
 
-            // Choose one neighbor at random
+            // Choose random neighbor
             String chosen = unvisitedNeighbors.get(random.nextInt(unvisitedNeighbors.size()));
-            System.out.println("    Unvisited neighbors: " + unvisitedNeighbors);
-            System.out.println("    Chosen next node: " + chosen);
-
-            // Move to chosen neighbor
             visited.add(chosen);
             predecessorMap.put(chosen, current);
+            pathSoFar.add(chosen);
             current = chosen;
         }
 
-        // Safety stop: too many steps without reaching dst
-        System.out.println("  Gave up after " + MAX_STEPS + " steps without reaching destination.");
+        // Max steps reached
+        printAttempt(pathSoFar, false);  // Print failed attempt
         return null;
     }
 
-    // These are unused for random walk (we override search), but must be
-    // implemented because AbstractGraphSearch declares them abstract.
+    /**
+     * Print attempt in format: Attempt X: A->B->C->D (Dead end) or (target node!)
+     */
+    private void printAttempt(List<String> path, boolean success) {
+        if (silentMode) {
+            return;
+        }
 
+        StringBuilder sb = new StringBuilder();
+        sb.append("Attempt ").append(attemptNumber - 1).append(": ");
+
+        for (int i = 0; i < path.size(); i++) {
+            sb.append(path.get(i));
+            if (i < path.size() - 1) {
+                sb.append("->");
+            }
+        }
+
+        if (success) {
+            sb.append(" (target node!)");
+        } else {
+            sb.append(" (Dead end)");
+        }
+
+        System.out.println(sb.toString());
+    }
+
+    // These methods are not used since we override search()
     @Override
-    protected void initializeFrontier(String src) {
-        // Not used in random walk
+    protected void initializeFrontier(String src) {}
+
+    public void setSilentMode(boolean silent) {
+        this.silentMode = silent;
     }
 
     @Override
     protected boolean isFrontierEmpty() {
-        // Not used in random walk
         return true;
     }
 
     @Override
     protected String getNextNode() {
-        // Not used in random walk
         return null;
     }
 
     @Override
-    protected void addToFrontier(String node) {
-        // Not used in random walk
-    }
+    protected void addToFrontier(String node) {}
 }
