@@ -16,7 +16,7 @@ public class BreadthFirstSearch implements GraphSearch {
         Set<String> visited = new HashSet<>();
         Map<String, String> prev = new HashMap<>();
 
-        List<String> BFSpath = new ArrayList<>();
+        List<String> bfsPath = new ArrayList<>();
 
         //Check for valid inputs
         if (src == null || dst == null) {
@@ -28,8 +28,8 @@ public class BreadthFirstSearch implements GraphSearch {
         }
         //Return the node if source == destination
         if( src.equals(dst)){
-            BFSpath.add(src);
-            return BFSpath;
+            bfsPath.add(src);
+            return bfsPath;
         }
 
         //Start Logic
@@ -62,13 +62,13 @@ public class BreadthFirstSearch implements GraphSearch {
         //Find the BFS
         String current = dst;
         while (current != null){
-            BFSpath.add(current);
+            bfsPath.add(current);
             current = prev.get(current);
         }
 
         //Reverse the path so it goes from src to dst
-        Collections.reverse(BFSpath);
-        return BFSpath;
+        Collections.reverse(bfsPath);
+        return bfsPath;
 
 
     }
