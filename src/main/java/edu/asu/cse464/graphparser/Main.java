@@ -54,13 +54,21 @@ public class Main {
 
             //Feature 7: Random Walk algorithm
             System.out.println("\nFeature 7: Using RANDOM_WALK algorithm");
-            RandomWalkSearch rws = new RandomWalkSearch(gp);
-            List<String> randomPath = rws.search("A", "E");
-            if(randomPath == null) {
-                System.out.println("No path found");
-            } else {
-                System.out.println("Random walk path: " + randomPath);
+            System.out.println("Running Random Walk 3 times to demonstrate randomness:\n");
+
+            for (int i = 1; i <= 3; i++) {
+                System.out.println("--- Run #" + i + " ---");
+                RandomWalkSearch rws = new RandomWalkSearch(gp);
+                List<String> randomPath = rws.search("A", "E");
+                if(randomPath == null) {
+                    System.out.println("No path found");
+                } else {
+                    System.out.println("Random walk path: " + randomPath);
+                }
+                System.out.println();
             }
+
+            System.out.println("Note: Each run may find a different path due to random exploration.");
 
             System.out.println("\nAPI tests");
             System.out.println("BFS with API : " + gp.graphSearch("A", "E", Algorithm.BFS));
