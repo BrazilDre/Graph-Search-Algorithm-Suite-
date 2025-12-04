@@ -1,9 +1,9 @@
 digraph G {
-    A -> B;
-    A -> C;
-    B -> D;
-    C -> D;
-    D -> E;
-    C -> F;
-    F -> E;
+ A -> B;
+ A -> C;
+ B -> D;
+ C -> D;
+ D -> E;
+ C -> F;
+ F -> E;
 }
