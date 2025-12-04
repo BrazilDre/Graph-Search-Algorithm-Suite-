@@ -52,6 +52,16 @@ public class Main {
                 System.out.println("DFS path:" + DFSresult);
             }
 
+            //Feature 7: Random Walk algorithm
+            System.out.println("\nFeature 7: Using RANDOM_WALK algorithm");
+            RandomWalkSearch rws = new RandomWalkSearch(gp);
+            List<String> randomPath = rws.search("A", "E");
+            if(randomPath == null) {
+                System.out.println("No path found");
+            } else {
+                System.out.println("Random walk path: " + randomPath);
+            }
+
             System.out.println("\nAPI tests");
             System.out.println("BFS with API : " + gp.graphSearch("A", "E", Algorithm.BFS));
             System.out.println("DFS with API : " + gp.graphSearch("A", "E", Algorithm.DFS));

@@ -19,7 +19,7 @@ public abstract class AbstractGraphSearch implements GraphSearch {
      * This method implements the common steps shared by all graph search algorithms.
      */
     @Override
-    public final List<String> search(String src, String dst) {
+    public List<String> search(String src, String dst) {
         // Step 1: Validate inputs
         if (!isValidInput(src, dst)) {
             return null;
