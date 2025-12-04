@@ -12,7 +12,7 @@ public class DepthFirstSearch implements GraphSearch {
     public List<String> search(String src, String dst) {
         Stack<String> stack = new Stack<>();
         Set<String> visited = new HashSet<>();
-        Map<String, String> prev = new HashMap<>();
+        Map<String, String> predecessorMap = new HashMap<>();
         List<String> dfsPath = new ArrayList<>();
 
 
@@ -45,13 +45,13 @@ public class DepthFirstSearch implements GraphSearch {
                 if(!visited.contains(neighbor)){
                     stack.push(neighbor);
                     visited.add(neighbor);
-                    prev.put(neighbor, currentNode);
+                    predecessorMap.put(neighbor, currentNode);
                 }
             }
         }
 
         //Check if destination was reached
-        if(!prev.containsKey(dst)){
+        if(!predecessorMap.containsKey(dst)){
             return null;
         }
 
@@ -59,7 +59,7 @@ public class DepthFirstSearch implements GraphSearch {
         String current = dst;
         while(current != null){
             dfsPath.add(current);
-            current = prev.get(current);
+            current = predecessorMap.get(current);
         }
 
         //Reverse the path so it goes from src to dst
