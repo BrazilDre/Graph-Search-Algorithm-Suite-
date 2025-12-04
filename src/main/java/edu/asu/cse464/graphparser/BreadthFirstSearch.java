@@ -4,10 +4,10 @@ import java.util.*;
 
 
 public class BreadthFirstSearch implements GraphSearch {
-    private final GraphParser graph;
+    private final GraphParser graphParser;
 
-    public BreadthFirstSearch(GraphParser graph) {
-        this.graph = graph;
+    public BreadthFirstSearch(GraphParser graphParser) {
+        this.graphParser = graphParser;
     }
 
     @Override
@@ -23,7 +23,7 @@ public class BreadthFirstSearch implements GraphSearch {
             return null;
         }
         //Check if the src and dst nodes exists
-        if (!graph.doesNodeExists(src) || !graph.doesNodeExists(dst)){
+        if (!graphParser.doesNodeExists(src) || !graphParser.doesNodeExists(dst)){
             return null;
         }
         //Return the node if source == destination
@@ -44,7 +44,7 @@ public class BreadthFirstSearch implements GraphSearch {
             if (currentNode.equals(dst)){
                 break;
             }
-            for (String neighbor : graph.getNeighbors(currentNode)){
+            for (String neighbor : graphParser.getNeighbors(currentNode)){
                 if (!visited.contains(neighbor)){
                     visited.add(neighbor);
                     prev.put(neighbor, currentNode);

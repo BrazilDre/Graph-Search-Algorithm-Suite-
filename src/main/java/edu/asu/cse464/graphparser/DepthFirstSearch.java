@@ -3,9 +3,9 @@ package edu.asu.cse464.graphparser;
 import java.util.*;
 
 public class DepthFirstSearch implements GraphSearch {
-    private final GraphParser graph;
-    public DepthFirstSearch(GraphParser graph) {
-        this.graph = graph;
+    private final GraphParser graphParser;
+    public DepthFirstSearch(GraphParser graphParser) {
+        this.graphParser = graphParser;
     }
 
     @Override
@@ -21,7 +21,7 @@ public class DepthFirstSearch implements GraphSearch {
             return null;
         }
         //Check if the src and dst nodes exists
-        if (!graph.doesNodeExists(src) || !graph.doesNodeExists(dst)){
+        if (!graphParser.doesNodeExists(src) || !graphParser.doesNodeExists(dst)){
             return null;
         }
         //Return the node if source == destination
@@ -41,7 +41,7 @@ public class DepthFirstSearch implements GraphSearch {
                 break;
             }
 
-            for (String neighbor : graph.getNeighbors(currentNode)){
+            for (String neighbor : graphParser.getNeighbors(currentNode)){
                 if(!visited.contains(neighbor)){
                     stack.push(neighbor);
                     visited.add(neighbor);
