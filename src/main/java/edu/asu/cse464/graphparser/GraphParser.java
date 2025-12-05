@@ -198,14 +198,15 @@ public class GraphParser {
         return nodes.contains(label);
     }
 
-    public Set<String> getNeighbors(String label) {
-        Set<String> neighbors = new HashSet<>();
-        for (Edge edge : edges) {
-            if (edge.src.equals(label)) {
-                neighbors.add(edge.dst);
-            }
+    protected List<String> buildPath(String src, String dst, Map<String, String> predecessorMap) {
+        List<String> path = new ArrayList<>();
+        String current = dst;
+
+        while (current != null) {
+            path.add(0, current);
+            current = predecessorMap.get(current);
         }
-        return neighbors;
+        return path;
     }
 
     public int getEdgeCount() {
