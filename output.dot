@@ -2,19 +2,17 @@ digraph G {
   A;
   B;
   C;
-  E;
   D;
+  E;
   F;
-  G;
-  H;
   x;
   y;
   A -> B;
   A -> C;
-  B -> E;
   B -> D;
+  C -> D;
+  D -> E;
   C -> F;
-  F -> G;
-  E -> H;
+  F -> E;
   x -> y;
 }

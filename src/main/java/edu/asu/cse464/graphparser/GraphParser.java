@@ -201,7 +201,6 @@ public class GraphParser {
     public int getEdgeCount() {
         return edges.size();
     }
-
     /**
      * Unified graph search API that chooses BFS or DFS based on the enum.
      *
@@ -211,25 +210,23 @@ public class GraphParser {
      * @return a path from src to dst as a list of node labels, or null if no path exists
      */
     public List<String> graphSearch(String src, String dst, Algorithm algo) {
-        GraphSearch strategy = createSearchStrategy(algo);
-        return strategy.search(src, dst);
-    }
-
-    private GraphSearch createSearchStrategy(Algorithm algo) {
         if (algo == null) {
             throw new IllegalArgumentException("Algorithm must not be null");
         }
 
+        GraphSearch searchAlgo;
         switch (algo) {
             case BFS:
-                return new BreadthFirstSearch(this);
+                searchAlgo = new BreadthFirstSearch(this);
+                break;
             case DFS:
-                return new DepthFirstSearch(this);
-            case RANDOM_WALK:
-                return new RandomWalkSearch(this);
+                searchAlgo = new DepthFirstSearch(this);
+                break;
             default:
                 throw new IllegalArgumentException("Unsupported algorithm: " + algo);
         }
+
+        return searchAlgo.search(src, dst);
     }
 
     public Set<String> getNeighbors(String label) {

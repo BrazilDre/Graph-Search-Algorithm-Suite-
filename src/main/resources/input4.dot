@@ -1,9 +1,0 @@
-digraph G {
-    X -> Y;
-    X -> Z;
-    Y -> M;
-    Z -> M;
-    M -> N;
-    Z -> Q;
-    Q -> N;
-}
