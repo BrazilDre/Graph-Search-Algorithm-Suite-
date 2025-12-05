@@ -224,7 +224,8 @@ public class GraphParser {
                 return new BreadthFirstSearch(this);
             case DFS:
                 return new DepthFirstSearch(this);
-            // Random Walk will be added here later
+            case RANDOM_WALK:
+                return new RandomWalkSearch(this);
             default:
                 throw new IllegalArgumentException("Unsupported algorithm: " + algo);
         }
