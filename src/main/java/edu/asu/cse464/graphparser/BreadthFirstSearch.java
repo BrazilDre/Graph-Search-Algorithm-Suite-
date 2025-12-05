@@ -14,7 +14,7 @@ public class BreadthFirstSearch implements GraphSearch {
     public List<String> search(String src, String dst){
         Queue<String> queue = new LinkedList<>();
         Set<String> visited = new HashSet<>();
-        Map<String, String> prev = new HashMap<>();
+        Map<String, String> predecessorMap = new HashMap<>();
 
         List<String> bfsPath = new ArrayList<>();
 
@@ -47,7 +47,7 @@ public class BreadthFirstSearch implements GraphSearch {
             for (String neighbor : graph.getNeighbors(currentNode)){
                 if (!visited.contains(neighbor)){
                     visited.add(neighbor);
-                    prev.put(neighbor, currentNode);
+                    predecessorMap.put(neighbor, currentNode);
                     queue.add(neighbor);
                 }
 
@@ -55,7 +55,7 @@ public class BreadthFirstSearch implements GraphSearch {
         }
 
         //Check if it reached the destination
-        if (!prev.containsKey(dst)){
+        if (!predecessorMap.containsKey(dst)){
             return null;
         }
 
@@ -63,7 +63,7 @@ public class BreadthFirstSearch implements GraphSearch {
         String current = dst;
         while (current != null){
             bfsPath.add(current);
-            current = prev.get(current);
+            current = predecessorMap.get(current);
         }
 
         //Reverse the path so it goes from src to dst
