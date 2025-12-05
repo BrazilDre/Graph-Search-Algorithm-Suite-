@@ -210,23 +210,25 @@ public class GraphParser {
      * @return a path from src to dst as a list of node labels, or null if no path exists
      */
     public List<String> graphSearch(String src, String dst, Algorithm algo) {
+        GraphSearch strategy = createSearchStrategy(algo);
+        return strategy.search(src, dst);
+    }
+
+    private GraphSearch createSearchStrategy(Algorithm algo) {
         if (algo == null) {
             throw new IllegalArgumentException("Algorithm must not be null");
         }
 
-        GraphSearch searchAlgo;
         switch (algo) {
             case BFS:
-                searchAlgo = new BreadthFirstSearch(this);
-                break;
+                return new BreadthFirstSearch(this);
             case DFS:
-                searchAlgo = new DepthFirstSearch(this);
-                break;
+                return new DepthFirstSearch(this);
+            case RANDOM_WALK:
+                return new RandomWalkSearch(this);
             default:
                 throw new IllegalArgumentException("Unsupported algorithm: " + algo);
         }
-
-        return searchAlgo.search(src, dst);
     }
 
     public Set<String> getNeighbors(String label) {
