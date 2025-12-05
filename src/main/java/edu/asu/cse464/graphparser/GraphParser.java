@@ -198,6 +198,16 @@ public class GraphParser {
         return nodes.contains(label);
     }
 
+    public Set<String> getNeighbors(String label) {
+        Set<String> neighbors = new HashSet<>();
+        for (Edge edge : edges) {
+            if (edge.src.equals(label)) {
+                neighbors.add(edge.dst);
+            }
+        }
+        return neighbors;
+    }
+
     public int getEdgeCount() {
         return edges.size();
     }
