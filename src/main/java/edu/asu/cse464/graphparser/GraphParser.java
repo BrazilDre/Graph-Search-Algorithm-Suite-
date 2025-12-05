@@ -198,17 +198,6 @@ public class GraphParser {
         return nodes.contains(label);
     }
 
-    protected List<String> buildPath(String src, String dst, Map<String, String> predecessorMap) {
-        List<String> path = new ArrayList<>();
-        String current = dst;
-
-        while (current != null) {
-            path.add(0, current);
-            current = predecessorMap.get(current);
-        }
-        return path;
-    }
-
     public int getEdgeCount() {
         return edges.size();
     }
@@ -221,23 +210,24 @@ public class GraphParser {
      * @return a path from src to dst as a list of node labels, or null if no path exists
      */
     public List<String> graphSearch(String src, String dst, Algorithm algo) {
+        GraphSearch strategy = createSearchStrategy(algo);
+        return strategy.search(src, dst);
+    }
+
+    private GraphSearch createSearchStrategy(Algorithm algo) {
         if (algo == null) {
             throw new IllegalArgumentException("Algorithm must not be null");
         }
 
-        GraphSearch searchAlgo;
         switch (algo) {
             case BFS:
-                searchAlgo = new BreadthFirstSearch(this);
-                break;
+                return new BreadthFirstSearch(this);
             case DFS:
-                searchAlgo = new DepthFirstSearch(this);
-                break;
+                return new DepthFirstSearch(this);
+            // Random Walk will be added here later
             default:
                 throw new IllegalArgumentException("Unsupported algorithm: " + algo);
         }
-
-        return searchAlgo.search(src, dst);
     }
 
     public Set<String> getNeighbors(String label) {
